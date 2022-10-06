@@ -171,7 +171,6 @@ const Pokemon: React.FC = () => {
                         sx={{
                             m: 1,
                             mt: 0,
-
                             fontSize: '16px',
                             lineHeight: '24px',
                             textTransform: 'capitalize',
@@ -225,7 +224,7 @@ const Pokemon: React.FC = () => {
                         </Typography>
                     </ListItem>
                     {pokemon?.abilities?.map((ability, index) => (
-                        <ListItem key={index} button onClick={() => handleOpen(ability)}>
+                        <ListItem key={index} button>
                             <Typography
                                 key={index}
                                 variant="h6"
