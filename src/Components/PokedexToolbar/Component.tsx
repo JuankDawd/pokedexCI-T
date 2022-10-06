@@ -5,8 +5,14 @@ import { Fragment } from 'react'
 import './Component.scss'
 import { useNavigate } from 'react-router-dom'
 import { PATHS } from '../../Utils/Routes'
+import { Box } from '@mui/system'
+import { SearchInput } from '../SearchInput'
 
-const PokedexToolbar: React.FC = () => {
+interface PokedexToolbarProps {
+    onChange: (_n) => void
+}
+
+const PokedexToolbar: React.FC<PokedexToolbarProps> = ({ onChange }) => {
     const navigate = useNavigate()
 
     const goHome = (): void => navigate(PATHS.HOME)
@@ -17,7 +23,7 @@ const PokedexToolbar: React.FC = () => {
                 <Toolbar disableGutters>
                     <Container>
                         <Grid container justifyContent="space-between" alignItems="center">
-                            <Grid item>
+                            <Grid item xs={3}>
                                 <Grid
                                     container
                                     alignItems="center"
@@ -54,7 +60,12 @@ const PokedexToolbar: React.FC = () => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={6}>
+                                <Box sx={{ width: '100%' }}>
+                                    <SearchInput onChange={onChange} />
+                                </Box>
+                            </Grid>
+                            <Grid item xs={3}>
                                 <Button
                                     sx={{
                                         px: 0,
