@@ -21,10 +21,6 @@ class PokedexControllerApi {
         }
     }
 
-    getPokemonImage(index: number) {
-        return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`
-    }
-
     async getAbilityDescription(ability: any) {
         try {
             const response = await api.get(`ability/${ability}`)

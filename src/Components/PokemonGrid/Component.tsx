@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, Grid, IconButton, Typography } from '@mui/material'
+import { Avatar, Box, Button, Container, Grid, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import { Fragment } from 'react'
 import './Component.scss'
@@ -8,6 +8,7 @@ import { PokedexController } from '../../Utils/API/Controllers/Pokedex.controlle
 import { Pokemon } from '../../Utils/interfaces/pokemon.interface'
 import { addFavorite, getFavorites, removeFavorite } from '../../Utils/services/favoriteSlice'
 import { useSelector, useDispatch } from 'react-redux'
+import { getPokemonImage } from '../../Utils'
 interface PokemonGridProps {
     pokemons: Pokemon[]
     lastPokemonElementRef: (node: any) => void
@@ -46,11 +47,20 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementR
             <Container
                 maxWidth="md"
                 sx={{
+                    width: '100%',
                     backgroundColor: '#F5F5F5',
+                    borderRadius: '8px',
                 }}
             >
                 <Grid container spacing={2} id="scrollableDiv">
-                    <Grid item xs={12}>
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{
+                            width: '100%',
+                            backgroundColor: '#F5F5F5',
+                        }}
+                    >
                         <Typography
                             variant="h6"
                             sx={{
@@ -94,7 +104,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementR
                             />
                             <Avatar
                                 variant="rounded"
-                                src={PokedexController.getPokemonImage(index)}
+                                src={getPokemonImage(pokemon.url)}
                                 alt={pokemon['name']}
                                 sx={{
                                     width: '25%',
