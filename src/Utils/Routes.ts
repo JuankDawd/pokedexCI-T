@@ -6,7 +6,7 @@ import { Pokemon } from '../Pages/Pokemon'
 export const PATHS = {
     HOME: '/',
     DETAILED: 'pokemon/:name',
-    FAVORITES: 'favorites',
+    FAVORITES: '/favorites',
 }
 
 interface RouteType {
