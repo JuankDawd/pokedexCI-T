@@ -65,7 +65,7 @@ const Favorites: React.FC = () => {
             <PokedexToolbar />
 
             {/* Pokedex  */}
-            <PokemonGrid pokemons={favorites} lastPokemonElementRef={lastPokemonElementRef} />
+            <PokemonGrid pokemons={favorites} favoritePage={true} lastPokemonElementRef={lastPokemonElementRef} />
         </Container>
     )
 }

@@ -33,7 +33,7 @@ const Home: React.FC = () => {
             <PokedexToolbar />
             {/* Pokedex  */}
 
-            <PokemonGrid pokemons={pokemons} lastPokemonElementRef={lastPokemonElementRef} />
+            <PokemonGrid pokemons={pokemons} favoritePage={false} lastPokemonElementRef={lastPokemonElementRef} />
         </Fragment>
     )
 }

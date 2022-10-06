@@ -10,10 +10,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getPokemonImage } from '../../Utils'
 interface PokemonGridProps {
     pokemons: Pokemon[]
+    favoritePage: boolean
     lastPokemonElementRef: (node: any) => void
 }
 
-const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementRef }) => {
+const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, favoritePage, lastPokemonElementRef }) => {
     const navigate = useNavigate()
     const favorites = useSelector(getFavorites)
     const dispatch = useDispatch()
@@ -77,7 +78,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementR
                             borderBottom: '1px solid #E0E0E0',
                         }}
                     >
-                        Pokemons List
+                        {!favoritePage ? 'Pokemons List' : 'Favorites'}
                     </Typography>
                 </Grid>
 
