@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { getFavorites } from '../../Utils/services/favoriteSlice'
+import { Pokemon } from '../interfaces/pokemon.interface'
 
 export default function useFavoriteSearch({ offset }) {
     const [loading, setLoading] = React.useState(true)
     const [error, setError] = React.useState(false)
-    const [pokemons, setPokemons] = React.useState([])
+    const [pokemons, setPokemons] = React.useState<Pokemon[]>([])
     const [hasMore, setHasMore] = React.useState(false)
 
-    const favorites = useSelector(getFavorites)
+    const favorites: Pokemon[] = useSelector(getFavorites)
 
     useEffect(() => {
         const loadPokemons = async () => {
             if (favorites.length > offset) {
-                const newfavorites: [] = favorites.slice(offset, offset + 10)
+                const newfavorites: Pokemon[] = favorites.slice(offset, offset + 10)
 
                 const hasMore = favorites.length > offset + 10
 
