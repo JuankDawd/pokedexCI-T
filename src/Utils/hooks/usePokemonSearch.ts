@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
 import { PokedexController } from '../API/Controllers/Pokedex.controller'
-
-export default function usePokemonSearch({ offset }) {
+import { Pokemon } from '../interfaces/pokemon.interface'
+interface useFavoriteSearchInterface {
+    loading: boolean
+    error: boolean
+    pokemons: Pokemon[]
+    hasMore: boolean
+}
+export default function usePokemonSearch({ offset }): useFavoriteSearchInterface {
     const [loading, setLoading] = React.useState(true)
     const [error, setError] = React.useState(false)
     const [pokemons, setPokemons] = React.useState([])
     const [hasMore, setHasMore] = React.useState(false)
 
     useEffect(() => {
-        const loadPokemons = async () => {
+        const loadPokemons = async (): Promise<void> => {
             const resp = await PokedexController.getPokemons(10, offset)
 
             if (resp.status === 200) {

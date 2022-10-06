@@ -1,6 +1,5 @@
-import { Avatar, Box, Button, Container, Grid, IconButton, Typography } from '@mui/material'
+import { Avatar, Button, Container, Grid, IconButton, Typography } from '@mui/material'
 import React from 'react'
-import { Fragment } from 'react'
 import './Component.scss'
 import { Favorite } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
@@ -11,14 +10,14 @@ import { getPokemonImage } from '../../Utils'
 interface PokemonGridProps {
     pokemons: Pokemon[]
     favoritePage: boolean
-    lastPokemonElementRef: (node: any) => void
+    lastPokemonElementRef: (_node) => void
 }
 
 const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, favoritePage, lastPokemonElementRef }) => {
     const navigate = useNavigate()
     const favorites = useSelector(getFavorites)
     const dispatch = useDispatch()
-    const handleFavoriteChange = (pokemon: Pokemon) => {
+    const handleFavoriteChange = (pokemon: Pokemon): void => {
         if (pokemon) {
             if (!favorites.includes(pokemon)) {
                 console.log({
@@ -36,11 +35,11 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, favoritePage, lastP
         }
     }
 
-    const isFavorite = (pokemon: Pokemon) => {
+    const isFavorite = (pokemon: Pokemon): boolean => {
         return favorites.includes(pokemon)
     }
 
-    const goToPokemon = (pokemon: Pokemon) => navigate(`/pokemon/${pokemon.name}`)
+    const goToPokemon = (pokemon: Pokemon): void => navigate(`/pokemon/${pokemon.name}`)
 
     return (
         <Container
@@ -109,9 +108,10 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, favoritePage, lastP
                                 textTransform: 'capitalize',
                                 color: isFavorite(pokemon) ? '#FF0000' : '#000000',
                             }}
-                            onClick={() => handleFavoriteChange(pokemon)}
-                            children={<Favorite />}
-                        />
+                            onClick={(): void => handleFavoriteChange(pokemon)}
+                        >
+                            <Favorite />
+                        </IconButton>
                         <Avatar
                             variant="rounded"
                             src={getPokemonImage(pokemon.url)}
@@ -141,7 +141,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, favoritePage, lastP
                                 textAlign: 'center',
                                 textTransform: 'capitalize',
                             }}
-                            onClick={() => goToPokemon(pokemon)}
+                            onClick={(): void => goToPokemon(pokemon)}
                         >
                             Details
                         </Button>

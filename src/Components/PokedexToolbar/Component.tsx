@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Button, Container, Grid, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Button, Container, Grid, Toolbar, Typography } from '@mui/material'
 import { Favorite, CatchingPokemon } from '@mui/icons-material'
 import React from 'react'
 import { Fragment } from 'react'
@@ -9,8 +9,8 @@ import { PATHS } from '../../Utils/Routes'
 const PokedexToolbar: React.FC = () => {
     const navigate = useNavigate()
 
-    const goHome = () => navigate(PATHS.HOME)
-    const goFavorites = () => navigate(PATHS.FAVORITES)
+    const goHome = (): void => navigate(PATHS.HOME)
+    const goFavorites = (): void => navigate(PATHS.FAVORITES)
     return (
         <Fragment>
             <AppBar color="transparent" elevation={0} position="fixed" sx={{ backgroundColor: 'background.paper' }}>

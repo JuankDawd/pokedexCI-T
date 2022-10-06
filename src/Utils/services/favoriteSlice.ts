@@ -29,6 +29,6 @@ export const favoriteSlice = createSlice({
 
 export const { addFavorite, removeFavorite } = favoriteSlice.actions
 
-export const getFavorites = (state: { favorite: { favorites: any } }) => state.favorite.favorites
+export const getFavorites = (state: { favorite: { favorites: Pokemon[] } }): Pokemon[] => state.favorite.favorites
 
 export default favoriteSlice.reducer

@@ -4,40 +4,23 @@ import { PokedexToolbar } from '../../Components/PokedexToolbar'
 import { PokedexController } from '../../Utils/API/Controllers/Pokedex.controller'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import {
-    Box,
-    Button,
-    Chip,
-    Container,
-    Link,
-    List,
-    ListItem,
-    ListItemText,
-    Modal,
-    Table,
-    TableBody,
-    TableCell,
-    tableCellClasses,
-    TableHead,
-    TableRow,
-    Tooltip,
-    Typography,
-} from '@mui/material'
+import { Box, Button, Chip, Container, Link, List, ListItem, Modal, Typography } from '@mui/material'
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
-import { AbilityDetails, PokemonDetailed } from '../../Utils/interfaces/pokemon.interface'
+import { AbilityDetails } from '../../Utils/interfaces/pokemon.interface'
 import './Pokemon'
 import { handleTypeColor } from '../../Utils'
+import { PokemonDetailed, PokemonDetailedEmpty } from '../../Utils/interfaces/getPokemon.interface'
 
 const Pokemon: React.FC = () => {
     const location = useLocation()
-    const [pokemon, setPokemon] = useState<PokemonDetailed>()
+    const [pokemon, setPokemon] = useState<PokemonDetailed>(PokemonDetailedEmpty)
     const [open, setOpen] = React.useState(false)
     const [ability, setAbility] = useState<AbilityDetails>({ effect: '', short_effect: '', generationName: '', name: '' })
 
     const style = {
-        position: 'absolute' as 'absolute',
+        position: 'absolute' as const,
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -50,7 +33,7 @@ const Pokemon: React.FC = () => {
     }
 
     useEffect(() => {
-        const getPokemon = async () => {
+        const getPokemon = async (): Promise<void> => {
             const resp = await PokedexController.getPokemon(pokemonName)
             if (resp.status === 200) {
                 const data = resp.data
@@ -64,7 +47,7 @@ const Pokemon: React.FC = () => {
         getPokemon()
     }, [location])
 
-    const handleSprites = (pokemonList) => {
+    const handleSprites = (pokemonList: PokemonDetailed): string[] => {
         const keys = Object.keys(pokemonList)
 
         if (pokemonList === undefined || pokemonList === null || keys.length === 0) return []
@@ -79,30 +62,28 @@ const Pokemon: React.FC = () => {
         return removeLastSprite
     }
 
-    const handleAbilityInfo = ({ effect_entries, generation, name }) => {
+    const handleAbilityInfo = ({ effect_entries, generation, name }): void => {
         const [{ effect, short_effect }] = effect_entries.filter(({ language: { name } }) => name === 'en')
         const { name: generationName } = generation
         console.log({ effect, short_effect, generationName, name })
         setAbility({ effect, short_effect, generationName, name })
     }
 
-    const handleGeneration = (generation) => {
+    const handleGeneration = (generation): string => {
         generation = generation.replace('-', ' ')
         generation = generation.replace('generation', 'Gen')
         generation = generation.replaceAll('i', 'I')
         return generation
     }
 
-    const handleOpen = async (ability) => {
-        console.log({
-            pokemon,
-        })
+    const handleOpen = async (ability): Promise<void> => {
         const abilityId = ability.ability.url.split('/')[6]
 
         const resp = await PokedexController.getAbilityDescription(abilityId)
 
         if (resp.status === 200) {
             const data = resp.data
+
             handleAbilityInfo(data)
 
             setOpen(true)
@@ -110,7 +91,7 @@ const Pokemon: React.FC = () => {
             console.log('error')
         }
     }
-    const handleClose = () => setOpen(false)
+    const handleClose = (): void => setOpen(false)
 
     return (
         <Fragment>
@@ -145,9 +126,9 @@ const Pokemon: React.FC = () => {
                         pagination={{ clickable: true }}
                         loop={true}
                     >
-                        {handleSprites(pokemon).map((type, index) => (
+                        {handleSprites(pokemon).map((sprite, index) => (
                             <SwiperSlide key={index}>
-                                <img src={type} alt={type} />
+                                <img src={sprite} alt={pokemon.name} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -201,7 +182,7 @@ const Pokemon: React.FC = () => {
                         sx={{
                             border: '1px solid #000',
                         }}
-                        onClick={() => handleOpen(ability)}
+                        onClick={(): Promise<void> => handleOpen(ability)}
                     >
                         <Typography
                             variant="h6"
@@ -232,7 +213,6 @@ const Pokemon: React.FC = () => {
                     {pokemon?.abilities?.map((ability, index) => (
                         <ListItem key={index} button>
                             <Typography
-                                key={index}
                                 variant="h6"
                                 sx={{
                                     width: '34%',
@@ -245,7 +225,6 @@ const Pokemon: React.FC = () => {
                                 {ability.ability.name}
                             </Typography>
                             <Typography
-                                key={index}
                                 variant="h6"
                                 sx={{ width: '33%', fontSize: '16px', lineHeight: '24px', textAlign: 'center', textTransform: 'capitalize' }}
                             >
@@ -253,11 +232,10 @@ const Pokemon: React.FC = () => {
                             </Typography>
 
                             <Typography
-                                key={index}
                                 variant="h6"
                                 sx={{ fontSize: '16px', lineHeight: '24px', textAlign: 'center', textTransform: 'capitalize', width: '33%' }}
                             >
-                                <Link variant="h6" onClick={() => handleOpen(ability)} sx={{ width: '100%' }}>
+                                <Link variant="h6" onClick={(): Promise<void> => handleOpen(ability)} sx={{ width: '100%' }}>
                                     See More
                                 </Link>
                             </Typography>

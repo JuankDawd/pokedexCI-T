@@ -1,11 +1,11 @@
 const getPokemonId = (url: string): number => +url.split('/')[6]
 
-const getPokemonImage = (url: string) => {
+const getPokemonImage = (url: string): string => {
     const id = getPokemonId(url)
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 }
 
-const handleTypeColor = (type: string) => {
+const handleTypeColor = (type: string): string => {
     switch (type) {
         case 'normal':
             return '#A8A77A'

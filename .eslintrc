@@ -30,12 +30,7 @@
         "import/no-named-as-default-member": 0,
         "@typescript-eslint/ban-types": "off",
         "react/jsx-props-no-spreading": "off",
-        "import/no-extraneous-dependencies": [
-            "error",
-            {
-                "devDependencies": true
-            }
-        ],
+
         "no-underscore-dangle": [
             "error",
             {

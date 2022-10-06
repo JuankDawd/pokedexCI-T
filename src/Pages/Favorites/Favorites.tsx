@@ -1,8 +1,6 @@
 import React, { useCallback, useRef } from 'react'
-import { Fragment } from 'react'
 import { PokedexToolbar } from '../../Components/PokedexToolbar'
 import PokemonGrid from '../../Components/PokemonGrid/Component'
-import usePokemonSearch from '../../Utils/hooks/usePokemonSearch'
 
 import useFavoriteSearch from '../../Utils/hooks/useFavoritesSearch'
 import { Container } from '@mui/system'
