@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { PokedexToolbar } from '../../Components/PokedexToolbar'
@@ -9,10 +9,10 @@ import { PokemonInterface } from '../../Utils/interfaces/pokemon.interface'
 import { getPokemons } from '../../Utils/services/pokemonSlice'
 
 const Home: React.FC = () => {
-    const [offset, setOffset] = React.useState(0)
+    const [offset, setOffset] = useState(0)
     const { pokemons, loading, hasMore } = usePokemonSearch({ offset })
-    const [pokemonsFiltered, setPokemonsFiltered] = React.useState<PokemonInterface[]>([])
-    const [search, setSearch] = React.useState('')
+    const [pokemonsFiltered, setPokemonsFiltered] = useState<PokemonInterface[]>([])
+    const [search, setSearch] = useState('')
 
     const pokemonList = useSelector(getPokemons)
 

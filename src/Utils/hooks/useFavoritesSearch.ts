@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getFavorites } from '../../Utils/services/favoriteSlice'
 import { PokemonInterface } from '../interfaces/pokemon.interface'
@@ -10,10 +10,10 @@ interface useFavoriteSearchInterface {
     hasMore: boolean
 }
 export default function useFavoriteSearch({ offset }): useFavoriteSearchInterface {
-    const [loading, setLoading] = React.useState(true)
-    const [error, setError] = React.useState(false)
-    const [pokemons, setPokemons] = React.useState<PokemonInterface[]>([])
-    const [hasMore, setHasMore] = React.useState(false)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
+    const [pokemons, setPokemons] = useState<PokemonInterface[]>([])
+    const [hasMore, setHasMore] = useState(false)
 
     const favorites: PokemonInterface[] = useSelector(getFavorites)
 

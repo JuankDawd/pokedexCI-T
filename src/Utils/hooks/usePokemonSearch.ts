@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { PokedexController } from '../API/Controllers/Pokedex.controller'
 import { PokemonInterface } from '../interfaces/pokemon.interface'
 interface useFavoriteSearchInterface {
@@ -8,10 +8,10 @@ interface useFavoriteSearchInterface {
     hasMore: boolean
 }
 export default function usePokemonSearch({ offset }): useFavoriteSearchInterface {
-    const [loading, setLoading] = React.useState(true)
-    const [error, setError] = React.useState(false)
-    const [pokemons, setPokemons] = React.useState<PokemonInterface[]>([])
-    const [hasMore, setHasMore] = React.useState(false)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
+    const [pokemons, setPokemons] = useState<PokemonInterface[]>([])
+    const [hasMore, setHasMore] = useState(false)
 
     useEffect(() => {
         const loadPokemons = async (): Promise<void> => {

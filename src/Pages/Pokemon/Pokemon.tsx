@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { PokedexToolbar } from '../../Components/PokedexToolbar'
 
 import { PokemonInterface } from '../../Utils/interfaces/pokemon.interface'
@@ -9,8 +9,8 @@ import { PokemonDetails } from '../../Components/PokemonDetails'
 import { PokemonFiltered } from '../../Components/PokemonFiltered'
 
 const Pokemon: React.FC = () => {
-    const [pokemonsFiltered, setPokemonsFiltered] = React.useState<PokemonInterface[]>([])
-    const [search, setSearch] = React.useState('')
+    const [pokemonsFiltered, setPokemonsFiltered] = useState<PokemonInterface[]>([])
+    const [search, setSearch] = useState('')
 
     const pokemonList = useSelector(getPokemons)
 

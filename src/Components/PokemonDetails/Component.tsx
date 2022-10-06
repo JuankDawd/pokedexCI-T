@@ -1,4 +1,5 @@
-import { Box, Chip, Container, Link, List, ListItem, Modal, Typography } from '@mui/material'
+import { Box, Chip, Container, Link, List, ListItem, Modal, Snackbar, Typography } from '@mui/material'
+
 import React, { useEffect, useState } from 'react'
 import { handleTypeColor } from '../../Utils'
 import { Scrollbar, A11y, Navigation, Pagination } from 'swiper'
@@ -26,18 +27,21 @@ const PokemonDetails: React.FC = () => {
     }
     const location = useLocation()
     const [pokemon, setPokemon] = useState<PokemonDetailed>(PokemonDetailedEmpty)
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState('')
     const [ability, setAbility] = useState<AbilityDetails>({ effect: '', short_effect: '', generationName: '', name: '' })
     const handleClose = (): void => setOpen(false)
+
     useEffect(() => {
         const getPokemon = async (): Promise<void> => {
             const resp = await PokedexController.getPokemon(pokemonName)
+
             if (resp.status === 200) {
                 const data = resp.data
 
                 setPokemon(data)
             } else {
-                console.log('error')
+                setError('Error obtining the pokemon')
             }
         }
 
@@ -57,7 +61,7 @@ const PokemonDetails: React.FC = () => {
 
             setOpen(true)
         } else {
-            console.log('error')
+            setError('Error obtining the pokemon ability')
         }
     }
 
@@ -79,7 +83,7 @@ const PokemonDetails: React.FC = () => {
     const handleAbilityInfo = ({ effect_entries, generation, name }): void => {
         const [{ effect, short_effect }] = effect_entries.filter(({ language: { name } }) => name === 'en')
         const { name: generationName } = generation
-        console.log({ effect, short_effect, generationName, name })
+
         setAbility({ effect, short_effect, generationName, name })
     }
 
@@ -352,6 +356,24 @@ const PokemonDetails: React.FC = () => {
                     )}
                 </Box>
             </Modal>
+
+            <Snackbar
+                open={error !== ''}
+                autoHideDuration={6000}
+                onClose={(): void => setError('')}
+                message={error}
+                sx={{
+                    width: '100%',
+                    '& .MuiSnackbarContent-root': {
+                        backgroundColor: '#f44336',
+                        color: '#fff',
+                        fontSize: '16px',
+                        lineHeight: '24px',
+                        textAlign: 'center',
+                        textTransform: 'capitalize',
+                    },
+                }}
+            />
         </Container>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { PokedexToolbar } from '../../Components/PokedexToolbar'
 import PokemonGrid from '../../Components/PokemonGrid/Component'
 
@@ -11,9 +11,9 @@ import { getPokemons } from '../../Utils/services/pokemonSlice'
 import { PokemonFiltered } from '../../Components/PokemonFiltered'
 
 const Favorites: React.FC = () => {
-    const [offset, setOffset] = React.useState(0)
-    const [pokemonsFiltered, setPokemonsFiltered] = React.useState<PokemonInterface[]>([])
-    const [search, setSearch] = React.useState('')
+    const [offset, setOffset] = useState(0)
+    const [pokemonsFiltered, setPokemonsFiltered] = useState<PokemonInterface[]>([])
+    const [search, setSearch] = useState('')
     const pokemonList = useSelector(getPokemons)
 
     const { favorites, loading, hasMore } = useFavoriteSearch({ offset })
