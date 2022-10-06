@@ -13,18 +13,23 @@ export const mainTheme = createTheme({
     },
     palette: {
         primary: {
-            main: '#208800',
-            light: '#196600',
-            dark: '#123800',
+            main: '#f44336',
+            light: '#ff7961',
+            dark: '#ba000d',
         },
         secondary: {
             main: '#3385FF',
+            light: '#6ab7ff',
+            dark: '#0052cc',
         },
         error: {
             main: '#DE0B00',
+            light: '#ff5c33',
+            dark: '#a30000',
         },
         warning: {
             main: '#E4F24C',
+            light: '#ffff7f',
             dark: '#FFB649',
         },
         background: {
