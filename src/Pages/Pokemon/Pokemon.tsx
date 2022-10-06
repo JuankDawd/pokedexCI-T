@@ -6,6 +6,7 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import {
     Box,
+    Button,
     Chip,
     Container,
     Link,
@@ -22,10 +23,12 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
+import 'swiper/scss'
+import 'swiper/scss/navigation'
+import 'swiper/scss/pagination'
 import { AbilityDetails, PokemonDetailed } from '../../Utils/interfaces/pokemon.interface'
+import './Pokemon'
+import { handleTypeColor } from '../../Utils'
 
 const Pokemon: React.FC = () => {
     const location = useLocation()
@@ -174,9 +177,12 @@ const Pokemon: React.FC = () => {
                             fontSize: '16px',
                             lineHeight: '24px',
                             textTransform: 'capitalize',
+                            fontWeight: 500,
+                            backgroundColor: handleTypeColor(type.type.name),
                         }}
                     />
                 ))}
+
                 <Typography
                     variant="h6"
                     sx={{
@@ -258,6 +264,26 @@ const Pokemon: React.FC = () => {
                         </ListItem>
                     ))}
                 </List>
+
+                <Button
+                    sx={{
+                        width: '100%',
+                        marginBottom: 2,
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontSize: '16px',
+                            lineHeight: '24px',
+                            width: '100%',
+                            textAlign: 'center',
+                            textTransform: 'capitalize',
+                        }}
+                    >
+                        Favorite?
+                    </Typography>
+                </Button>
 
                 <Modal
                     open={open}

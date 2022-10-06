@@ -1,10 +1,10 @@
 import { Avatar, Button, Container, Grid, IconButton, Typography } from '@mui/material'
 import React, { useCallback, useRef } from 'react'
 import { Fragment } from 'react'
-import './Component.scss'
 import usePokemonSearch from '../../Utils/hooks/usePokemonSearch'
 import { Favorite } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import './Component.scss'
 const PokemonGrid: React.FC = () => {
     const navigate = useNavigate()
     const [offset, setOffset] = React.useState(10)
