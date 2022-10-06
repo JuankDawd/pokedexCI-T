@@ -4,14 +4,14 @@ import { PokedexToolbar } from '../../Components/PokedexToolbar'
 import { PokedexController } from '../../Utils/API/Controllers/Pokedex.controller'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Box, Button, Chip, Container, Link, List, ListItem, Modal, Typography } from '@mui/material'
+import { Box, Chip, Container, Link, List, ListItem, Modal, Typography } from '@mui/material'
+import { AbilityDetails } from '../../Utils/interfaces/pokemon.interface'
+import { handleTypeColor } from '../../Utils'
+import { PokemonDetailed, PokemonDetailedEmpty } from '../../Utils/interfaces/getPokemon.interface'
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
-import { AbilityDetails } from '../../Utils/interfaces/pokemon.interface'
 import './Pokemon'
-import { handleTypeColor } from '../../Utils'
-import { PokemonDetailed, PokemonDetailedEmpty } from '../../Utils/interfaces/getPokemon.interface'
 
 const Pokemon: React.FC = () => {
     const location = useLocation()
@@ -37,6 +37,7 @@ const Pokemon: React.FC = () => {
             const resp = await PokedexController.getPokemon(pokemonName)
             if (resp.status === 200) {
                 const data = resp.data
+
                 setPokemon(data)
             } else {
                 console.log('error')
@@ -242,26 +243,6 @@ const Pokemon: React.FC = () => {
                         </ListItem>
                     ))}
                 </List>
-
-                <Button
-                    sx={{
-                        width: '100%',
-                        marginBottom: 2,
-                    }}
-                >
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontSize: '16px',
-                            lineHeight: '24px',
-                            width: '100%',
-                            textAlign: 'center',
-                            textTransform: 'capitalize',
-                        }}
-                    >
-                        Favorite?
-                    </Typography>
-                </Button>
 
                 <Modal
                     open={open}

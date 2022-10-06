@@ -20,16 +20,8 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, favoritePage, lastP
     const handleFavoriteChange = (pokemon: Pokemon): void => {
         if (pokemon) {
             if (!favorites.includes(pokemon)) {
-                console.log({
-                    pokemon,
-                    msg: 'Added to favorites',
-                })
                 dispatch(addFavorite(pokemon))
             } else {
-                console.log({
-                    pokemon,
-                    msg: 'Remove from favorites',
-                })
                 dispatch(removeFavorite(pokemon))
             }
         }
