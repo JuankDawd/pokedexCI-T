@@ -18,9 +18,6 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementR
     const favorites = useSelector(getFavorites)
     const dispatch = useDispatch()
     const handleFavorite = async (pokemon): Promise<void> => {
-        console.log({
-            pokemon,
-        })
         if (pokemon) {
             if (!favorites.includes(pokemon)) {
                 dispatch(addFavorite(pokemon))
