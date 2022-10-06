@@ -4,16 +4,34 @@ import { PokedexToolbar } from '../../Components/PokedexToolbar'
 import { PokedexController } from '../../Utils/API/Controllers/Pokedex.controller'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Box, Chip, Container, Link, Modal, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material'
+import {
+    Box,
+    Chip,
+    Container,
+    Link,
+    List,
+    ListItem,
+    ListItemText,
+    Modal,
+    Table,
+    TableBody,
+    TableCell,
+    tableCellClasses,
+    TableHead,
+    TableRow,
+    Tooltip,
+    Typography,
+} from '@mui/material'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { AbilityDetails, PokemonDetailed } from '../../Utils/interfaces/pokemon.interface'
 
 const Pokemon: React.FC = () => {
     const location = useLocation()
-    const [pokemon, setPokemon] = React.useState<any>({})
+    const [pokemon, setPokemon] = useState<PokemonDetailed>()
     const [open, setOpen] = React.useState(false)
-    const [ability, setAbility] = useState({ effect: '', short_effect: '', generationName: '', name: '' })
+    const [ability, setAbility] = useState<AbilityDetails>({ effect: '', short_effect: '', generationName: '', name: '' })
 
     const style = {
         position: 'absolute' as 'absolute',
@@ -23,6 +41,7 @@ const Pokemon: React.FC = () => {
         width: 400,
         bgcolor: 'background.paper',
         border: '2px solid #000',
+        borderRadius: '8px',
         boxShadow: 24,
         p: 4,
     }
@@ -60,7 +79,7 @@ const Pokemon: React.FC = () => {
     const handleAbilityInfo = ({ effect_entries, generation, name }) => {
         const [{ effect, short_effect }] = effect_entries.filter(({ language: { name } }) => name === 'en')
         const { name: generationName } = generation
-
+        console.log({ effect, short_effect, generationName, name })
         setAbility({ effect, short_effect, generationName, name })
     }
 
@@ -72,6 +91,9 @@ const Pokemon: React.FC = () => {
     }
 
     const handleOpen = async (ability) => {
+        console.log({
+            pokemon,
+        })
         const abilityId = ability.ability.url.split('/')[6]
 
         const resp = await PokedexController.getAbilityDescription(abilityId)
@@ -79,6 +101,7 @@ const Pokemon: React.FC = () => {
         if (resp.status === 200) {
             const data = resp.data
             handleAbilityInfo(data)
+
             setOpen(true)
         } else {
             console.log('error')
@@ -111,19 +134,21 @@ const Pokemon: React.FC = () => {
                 >
                     {pokemon?.name}
                 </Typography>
-                <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
-                    slidesPerView={3}
-                    pagination={{ clickable: true }}
-                    loop={true}
-                >
-                    {handleSprites(pokemon).map((type, index) => (
-                        <SwiperSlide key={index}>
-                            <img src={type} alt={type} />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                {pokemon && (
+                    <Swiper
+                        modules={[Navigation, Pagination, Scrollbar, A11y]}
+                        spaceBetween={10}
+                        slidesPerView={3}
+                        pagination={{ clickable: true }}
+                        loop={true}
+                    >
+                        {handleSprites(pokemon).map((type, index) => (
+                            <SwiperSlide key={index}>
+                                <img src={type} alt={type} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                )}
 
                 <Typography
                     variant="h6"
@@ -139,7 +164,6 @@ const Pokemon: React.FC = () => {
                 >
                     Types
                 </Typography>
-
                 {pokemon?.types?.map((type, index) => (
                     <Chip
                         key={index}
@@ -154,7 +178,6 @@ const Pokemon: React.FC = () => {
                         }}
                     />
                 ))}
-
                 <Typography
                     variant="h6"
                     sx={{
@@ -163,66 +186,87 @@ const Pokemon: React.FC = () => {
                         width: '100%',
                         textAlign: 'center',
                         textTransform: 'capitalize',
-                        marginBottom: 4,
+                        marginBottom: 2,
                     }}
                 >
                     Abilities
                 </Typography>
+                <List>
+                    <ListItem
+                        sx={{
+                            border: '1px solid #000',
+                        }}
+                        onClick={() => handleOpen(ability)}
+                    >
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                width: '34%',
+                                fontSize: '16px',
+                                lineHeight: '24px',
+                                textAlign: 'center',
+                                textTransform: 'capitalize',
+                            }}
+                        >
+                            {'Name'}
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{ width: '33%', fontSize: '16px', lineHeight: '24px', textAlign: 'center', textTransform: 'capitalize' }}
+                        >
+                            {'Hidden'}
+                        </Typography>
 
-                <Table>
-                    <TableHead></TableHead>
-                    <TableBody>
-                        {pokemon?.abilities?.map((ability, index) => (
-                            <TableRow key={index}>
-                                <TableCell>
-                                    <Typography
-                                        key={index}
-                                        variant="h6"
-                                        sx={{
-                                            fontSize: '16px',
-                                            lineHeight: '24px',
-                                            textAlign: 'center',
-                                            textTransform: 'capitalize',
-                                        }}
-                                    >
-                                        {ability.ability.name}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography
-                                        key={index}
-                                        variant="h6"
-                                        sx={{
-                                            fontSize: '16px',
-                                            lineHeight: '24px',
-                                            textAlign: 'center',
-                                            textTransform: 'capitalize',
-                                        }}
-                                    >
-                                        {ability.is_hidden ? 'Hidden' : 'Not Hidden'}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Link
-                                        key={index}
-                                        variant="h6"
-                                        sx={{
-                                            fontSize: '16px',
-                                            lineHeight: '24px',
-                                            textAlign: 'center',
-                                            textTransform: 'capitalize',
-                                        }}
-                                        onClick={() => handleOpen(ability)}
-                                    >
-                                        {'See More'}
-                                    </Link>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                        <Typography
+                            variant="h6"
+                            sx={{ width: '33%', fontSize: '16px', lineHeight: '24px', textAlign: 'center', textTransform: 'capitalize' }}
+                        >
+                            {'Description?'}
+                        </Typography>
+                    </ListItem>
+                    {pokemon?.abilities?.map((ability, index) => (
+                        <ListItem key={index} button onClick={() => handleOpen(ability)}>
+                            <Typography
+                                key={index}
+                                variant="h6"
+                                sx={{
+                                    width: '34%',
+                                    fontSize: '16px',
+                                    lineHeight: '24px',
+                                    textAlign: 'center',
+                                    textTransform: 'capitalize',
+                                }}
+                            >
+                                {ability.ability.name}
+                            </Typography>
+                            <Typography
+                                key={index}
+                                variant="h6"
+                                sx={{ width: '33%', fontSize: '16px', lineHeight: '24px', textAlign: 'center', textTransform: 'capitalize' }}
+                            >
+                                {ability.is_hidden ? 'Hidden' : 'Not Hidden'}
+                            </Typography>
 
-                <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                            <Typography
+                                key={index}
+                                variant="h6"
+                                sx={{ fontSize: '16px', lineHeight: '24px', textAlign: 'center', textTransform: 'capitalize', width: '33%' }}
+                            >
+                                <Link variant="h6" onClick={() => handleOpen(ability)} sx={{ width: '100%' }}>
+                                    See More
+                                </Link>
+                            </Typography>
+                        </ListItem>
+                    ))}
+                </List>
+
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    sx={{
+                        borderRadius: 2,
+                    }}
+                >
                     <Box sx={style}>
                         {ability && (
                             <Box
@@ -237,13 +281,24 @@ const Pokemon: React.FC = () => {
                                 <Typography
                                     variant="h6"
                                     sx={{
+                                        fontSize: '20px',
+                                        lineHeight: '24px',
+                                        textTransform: 'capitalize',
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    Name
+                                </Typography>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
                                         fontSize: '16px',
                                         lineHeight: '24px',
                                         textTransform: 'capitalize',
                                         marginBottom: 2,
                                     }}
                                 >
-                                    Name: {ability['name']}
+                                    {ability.name}
                                 </Typography>
 
                                 <Typography
@@ -267,7 +322,7 @@ const Pokemon: React.FC = () => {
                                         marginBottom: 2,
                                     }}
                                 >
-                                    {ability['short_effect']}
+                                    {ability.short_effect}
                                 </Typography>
 
                                 <Typography
@@ -291,7 +346,19 @@ const Pokemon: React.FC = () => {
                                         marginBottom: 2,
                                     }}
                                 >
-                                    {ability['effect']}
+                                    {ability.effect}
+                                </Typography>
+
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontSize: '20px',
+                                        lineHeight: '24px',
+                                        textTransform: 'capitalize',
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    Generation
                                 </Typography>
 
                                 <Typography
@@ -303,7 +370,7 @@ const Pokemon: React.FC = () => {
                                         marginBottom: 2,
                                     }}
                                 >
-                                    {handleGeneration(ability['generationName'])}
+                                    {handleGeneration(ability.generationName)}
                                 </Typography>
                             </Box>
                         )}
