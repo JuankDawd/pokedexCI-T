@@ -17,16 +17,29 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementR
     const navigate = useNavigate()
     const favorites = useSelector(getFavorites)
     const dispatch = useDispatch()
-    const handleFavorite = async (pokemon): Promise<void> => {
+    const handleFavoriteChange = (pokemon: Pokemon) => {
         if (pokemon) {
             if (!favorites.includes(pokemon)) {
+                console.log({
+                    pokemon,
+                    msg: 'Added to favorites',
+                })
                 dispatch(addFavorite(pokemon))
             } else {
+                console.log({
+                    pokemon,
+                    msg: 'Remove from favorites',
+                })
                 dispatch(removeFavorite(pokemon))
             }
         }
     }
-    const goToPokemon = (pokemon) => navigate(`/pokemon/${pokemon.name}`)
+
+    const isFavorite = (pokemon: Pokemon) => {
+        return favorites.includes(pokemon)
+    }
+
+    const goToPokemon = (pokemon: Pokemon) => navigate(`/pokemon/${pokemon.name}`)
 
     return (
         <Fragment>
@@ -74,8 +87,9 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementR
                                     lineHeight: '24px',
                                     textAlign: 'center',
                                     textTransform: 'capitalize',
+                                    color: isFavorite(pokemon) ? '#FF0000' : '#000000',
                                 }}
-                                onClick={() => handleFavorite(pokemon)}
+                                onClick={() => handleFavoriteChange(pokemon)}
                                 children={<Favorite />}
                             />
                             <Avatar
