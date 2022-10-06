@@ -4,7 +4,6 @@ import { Fragment } from 'react'
 import './Component.scss'
 import { Favorite } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import { PokedexController } from '../../Utils/API/Controllers/Pokedex.controller'
 import { Pokemon } from '../../Utils/interfaces/pokemon.interface'
 import { addFavorite, getFavorites, removeFavorite } from '../../Utils/services/favoriteSlice'
 import { useSelector, useDispatch } from 'react-redux'
@@ -43,103 +42,112 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({ pokemons, lastPokemonElementR
     const goToPokemon = (pokemon: Pokemon) => navigate(`/pokemon/${pokemon.name}`)
 
     return (
-        <Fragment>
-            <Container
-                maxWidth="md"
-                sx={{
-                    width: '100%',
-                    backgroundColor: '#F5F5F5',
-                    borderRadius: '8px',
-                }}
-            >
-                <Grid container spacing={2} id="scrollableDiv">
+        <Container
+            maxWidth="md"
+            sx={{
+                width: '100vw',
+                backgroundColor: '#F5F5F5',
+                borderRadius: '8px',
+            }}
+        >
+            <Grid container>
+                <Grid
+                    item
+                    xs={12}
+                    sx={{
+                        width: '100%',
+                        backgroundColor: '#F5F5F5',
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontSize: '16px',
+                            lineHeight: '24px',
+                            width: '100%',
+
+                            color: '#000000',
+                            fontWeight: 'bold',
+                            padding: '16px 0px 16px 16px',
+
+                            backgroundColor: '#F5F5F5',
+
+                            borderRadius: '8px 8px 0px 0px',
+
+                            borderBottom: '1px solid #E0E0E0',
+                        }}
+                    >
+                        Pokemons List
+                    </Typography>
+                </Grid>
+
+                {pokemons.map((pokemon, index) => (
                     <Grid
+                        ref={index + 1 === pokemons.length ? lastPokemonElementRef : null}
                         item
+                        key={index}
                         xs={12}
                         sx={{
                             width: '100%',
-                            backgroundColor: '#F5F5F5',
+                            height: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+
+                            '&:hover': {
+                                backgroundColor: '#E5E5E5',
+                            },
                         }}
                     >
-                        <Typography
-                            variant="h6"
+                        <IconButton
                             sx={{
+                                width: '5%',
                                 fontSize: '16px',
                                 lineHeight: '24px',
-                                width: '100%',
+                                textAlign: 'center',
+                                textTransform: 'capitalize',
+                                color: isFavorite(pokemon) ? '#FF0000' : '#000000',
                             }}
-                        >
-                            Pokemons List
-                        </Typography>
-                    </Grid>
-
-                    {pokemons.map((pokemon, index) => (
-                        <Grid
-                            ref={index + 1 === pokemons.length ? lastPokemonElementRef : null}
-                            item
-                            key={index}
+                            onClick={() => handleFavoriteChange(pokemon)}
+                            children={<Favorite />}
+                        />
+                        <Avatar
+                            variant="rounded"
+                            src={getPokemonImage(pokemon.url)}
+                            alt={pokemon['name']}
                             sx={{
-                                width: '100%',
-                                height: '100%',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
+                                width: '25%',
+                                height: 'auto',
+                            }}
+                        />
 
-                                '&:hover': {
-                                    backgroundColor: '#E5E5E5',
-                                },
+                        <Typography
+                            sx={{
+                                width: '75%',
+                                fontSize: '16px',
+                                lineHeight: '24px',
+                                textAlign: 'center',
+                                textTransform: 'capitalize',
                             }}
                         >
-                            <IconButton
-                                sx={{
-                                    width: '5%',
-                                    fontSize: '16px',
-                                    lineHeight: '24px',
-                                    textAlign: 'center',
-                                    textTransform: 'capitalize',
-                                    color: isFavorite(pokemon) ? '#FF0000' : '#000000',
-                                }}
-                                onClick={() => handleFavoriteChange(pokemon)}
-                                children={<Favorite />}
-                            />
-                            <Avatar
-                                variant="rounded"
-                                src={getPokemonImage(pokemon.url)}
-                                alt={pokemon['name']}
-                                sx={{
-                                    width: '25%',
-                                    height: 'auto',
-                                }}
-                            />
-
-                            <Typography
-                                sx={{
-                                    width: '75%',
-                                    fontSize: '16px',
-                                    lineHeight: '24px',
-                                    textAlign: 'center',
-                                    textTransform: 'capitalize',
-                                }}
-                            >
-                                {pokemon['name']}
-                            </Typography>
-                            <Button
-                                sx={{
-                                    width: '10%',
-                                    fontSize: '16px',
-                                    lineHeight: '24px',
-                                    textAlign: 'center',
-                                    textTransform: 'capitalize',
-                                }}
-                                onClick={() => goToPokemon(pokemon)}
-                            >
-                                Details
-                            </Button>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Container>
-        </Fragment>
+                            {pokemon['name']}
+                        </Typography>
+                        <Button
+                            sx={{
+                                width: '10%',
+                                fontSize: '16px',
+                                lineHeight: '24px',
+                                textAlign: 'center',
+                                textTransform: 'capitalize',
+                            }}
+                            onClick={() => goToPokemon(pokemon)}
+                        >
+                            Details
+                        </Button>
+                    </Grid>
+                ))}
+            </Grid>
+        </Container>
     )
 }
 

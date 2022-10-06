@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Container, Grid, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Button, Container, Grid, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material'
 import { Favorite, CatchingPokemon } from '@mui/icons-material'
 import React from 'react'
 import { Fragment } from 'react'
@@ -55,25 +55,28 @@ const PokedexToolbar: React.FC = () => {
                                 </Grid>
                             </Grid>
                             <Grid item>
-                                <IconButton
+                                <Button
                                     sx={{
                                         px: 0,
                                         py: 0,
                                         width: 50,
                                         height: 24,
-
-                                        '&:hover': {
-                                            backgroundColor: 'transparent',
-                                        },
-
-                                        '&& .MuiTouchRipple-child': {
-                                            backgroundColor: 'transparent',
-                                        },
                                     }}
                                     onClick={goFavorites}
+                                    endIcon={<Favorite sx={{ fontSize: 24, color: 'red' }} />}
                                 >
-                                    <Favorite sx={{ fontSize: 24, color: 'red' }} />
-                                </IconButton>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontSize: '16px',
+                                            lineHeight: '24px',
+                                            fontWeight: 400,
+                                            color: '#000',
+                                        }}
+                                    >
+                                        {'Favorites'}
+                                    </Typography>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Container>
